@@ -2,6 +2,7 @@
 *.[oa]
 
 sommelier_app/data/*
+sommelier_app/htmls/.sass-cache/*
 **/*.txt
 **/*~
 **/*/*~
