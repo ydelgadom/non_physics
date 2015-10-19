@@ -6,6 +6,8 @@ sommelier_app/data/*
 **/*~
 **/*~
 **/*/*~
+
 catadb_django/uploads/*
+catadb_django/catadb/templates/.sass-cache/*
 **/*.pyc
 **/*/*.pyc
