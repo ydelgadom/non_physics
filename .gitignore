@@ -4,3 +4,4 @@
 sommelier_app/data/*
 **/*.txt
 **/*~
+catadb_django/uploads/*
