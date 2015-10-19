@@ -1,4 +1,6 @@
-*.pyc
 # ignore objects and archives
 *.[oa]
-*~
+
+sommelier_app/data/*
+**/*.txt
+**/*~
