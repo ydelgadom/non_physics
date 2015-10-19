@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/normalize.css"> 
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <style>
+    h1 {
+      text-align: center;
+      color: #CC3399;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: .1em;
+    }
+    select{
+      cursor: pointer;
+    }
+    body {
+      background: #c1bdba;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    select {
+      color: #333333;
+    }
+  </style>
+</head>
+
+<body>
+  <br>
+
+  <h1 style="text-align:center;">
+  <strong>Hey {{ name }},</strong>
+  </h1>
+
+  <fieldset style="padding: 40px; width:60%; margin: 40px auto; background-color:#13232f; box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3); border-radius: 4px; border: 0px">
+    <div style="font-size:20px; color:#a0b3b0;">
+      {{ welcome_text }}<br><br>
+      To browse your <b>previous tasting notes</b> <a href="{{ url_old_tasting_notes }}">click here</a>.
+    </div>
+
+    <br>
+    <form method="post" action="">
+      <div style="font-size:20px; color:#a0b3b0;">
+        To <b>start a new file</b>, choose a type of wine
+        <select name="wine_type">
+          <option value="red">Red Wine</option>
+          <option value="white">White Wine</option>
+        </select>
+        and click the button below.
+      </div>
+      <br><br>
+      <div align=center>
+        <button type="submit" class="button button-block" style="font-size:22px; cursor:pointer">
+        Create New Tasting Notes</button>
+      </div>
+    </form>
+
+  </fieldset>
+  <br><br>
+  <br><br>
+
+</body>
+
+</html>

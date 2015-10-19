@@ -1,0 +1,3 @@
+welcome: #CC3399;
+tinto: #990000;
+blanco: #99CC33;

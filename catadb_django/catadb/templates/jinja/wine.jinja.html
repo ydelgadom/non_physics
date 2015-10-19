@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tasting Notes</title>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/normalize.css"> 
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <script type="text/javascript">
+    function post(path, params)
+    {
+      // code from http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+      method = "post";
+
+      var form = document.createElement("form");
+      form.setAttribute("method", method);
+      form.setAttribute("action", path);
+
+      for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+      }
+      document.body.appendChild(form);
+      form.submit();
+    } 
+
+    function load_wine(val)
+    {
+      if(val != "none"){
+        post('{{ post_url }}', {name: val})
+      }
+    }
+  </script>
+
+  <style>
+    table, th, td {
+      border: 1px solid #999999;
+      border-radius: 4px;
+      border-collapse: collapse;
+      font-size: 16px;
+      color: #a0b3b0;
+    }
+    td {
+      text-align: center;
+    }
+    th {
+      background-color: #13232f;
+      color: white;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+    }
+    table#t01 tr:nth-child(even) {
+      background-color: #13232f;
+    }
+    table#t01 tr:nth-child(odd) {
+      background-color: #2B3944;
+    }
+    h1 {
+      padding: 30px 30px;
+      color: white;
+      font-size: 34px;
+    }
+    h2 {
+      color: #c1bdba;
+    }
+    h3 {
+      color: #c1bdba;
+      font-size: 30px;
+      text-align: center;
+    }
+    h4 {
+      color: #c1bdba;
+      font-size: 20px;
+      text-align: center;
+    } 
+    input[type=radio]:checked {
+      background-color: #f00;
+    }
+    input[type=radio] {
+      display: inline;
+      width: auto;
+      height: 100%;
+      padding: 0px;
+      background: none;
+      background-image: none;
+      border: 0;
+      color: #ffffff;
+      border-radius: 0;
+    }
+    input[type=text].table {
+      display: block;
+      width: 100%;
+      height: auto;
+      padding: 0px;
+      background: none;
+      background-image: none;
+      border: 0;
+      color: #a0b3b0;
+      border-radius: 0;
+      font-size: 16px;
+    }
+    input[type=file] {
+      font-size: 14px;
+    }
+    select{
+      cursor: pointer;
+    }
+    body {
+      background: #13232f;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    input:focus, textarea:focus {
+      outline: 0;
+      border-color: {{ color }};
+    }
+    select {
+      color: #333333;
+      margin-left:10px;
+    }
+    table.text, th.text, td.text {
+      font-size: 16px;
+      color: #a0b3b0;
+      border: 0;
+      text-align: left;
+      padding: 0px 0px 10px 0px;
+    }
+    div.text {
+      font-size:16px;
+      color:#a0b3b0;
+    }
+    fieldset {
+      width: 480px;
+      padding: 0px;
+      margin: 40px auto;
+      background-color:#13232f;
+      box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+      border: 0px;
+    }
+    .button-block {
+      font-size: 22px;
+    }
+    textarea {
+      font-size: 16px
+    }
+    input[type=radio]
+    {
+      -webkit-appearance:radio;
+    }
+    input[type=checkbox]
+    {
+      transform: scale(0.7);
+      display: inline-block;
+      -webkit-appearance: checkbox;
+    }
+    legend {
+        width:100%;
+        height:74px;
+        box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+        border: 0px;
+        padding: 10px 0px;
+        color: white;
+        font-size: 34px;
+        background-color:{{ color }};
+        vertical-align: middle;
+        text-align: center; 
+        margin: 0 auto;
+    }
+
+@media only screen and (max-device-width: 568px){
+    fieldset {
+      width: 98%
+    }
+    h1 {
+      font-size: 55px;
+    }
+    h2 {
+      font-size: 55px;
+    }
+    h3 {
+      font-size: 55px;
+    }
+    h4 {
+      font-size: 50px;
+    }
+    legend {
+      height: 100px;
+      padding: 10px 0px;
+      font-size: 50px;
+    }
+    .button-block {
+      font-size: 44px;
+      height: 100px; 
+    }
+    div.text {
+      font-size: 40px;
+    }
+    input[type=file] {
+      font-size: 30px;
+    }
+    table, th, td {
+      font-size: 40px;
+    }
+    table.text, th.text, td.text {
+      font-size: 40px;
+    }
+    textarea {
+      font-size: 40px
+    } 
+    input[type=text].table {
+      height: 80px;
+      font-size: 40px;
+    }
+    input[type=text] {
+      height: 80px;
+      font-size: 40px;
+    }
+}
+  </style>
+
+</head>
+
+<body>
+
+  <fieldset>
+    <h2 style="text-align:left;">Select your stored wines:</h2>
+
+    <div class="text">
+      <select id="wineselect" onchange="load_wine(this.value);">
+        <option value="none">Select ...</option>
+        {% for wine in wines %}
+        <option value="{{ wine.wineid }}">{{ wine.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br>
+
+    <form method="get" action="{{ welcome_url }}">
+      <div align=center>
+        <button type="submit" class="button button-block" style="cursor:pointer; background-color:{{ color }}">Start a new tasting grid</button>
+      </div>
+    </form>
+  </fieldset>
+
+  <hr>
+
+  {% if show_tasting_note %}
+  <fieldset>
+    <legend  align="center">{{ name }}</legend>
+    <br>
+
+    {% if pics.front_label and pics.back_label %}
+    <div>
+      <img src="{{ pics.front_label }}" style="float:left; width: 48%; margin-right:4%; margin-bottom:0.5em;">
+      <img src="{{ pics.back_label }}" style="float:left; width: 48%; margin-bottom:0.5em;">
+      <p style="clear: both;">
+    </div>
+    {% else %}
+    {% if pics.front_label %}
+    <div align="center">
+      <img src="{{ pics.front_label }}" style="width: 50%; margin-bottom:0.5em; margin-left:auto; margin-right:auto;">
+    </div>
+    {% elif pics.back_label %}
+    <div align="center">
+      <img src="{{ pics.back_label }}" style="width: 50%; margin-bottom:0.5em; margin-left:auto; margin-right:auto;">
+    </div>
+    {% endif %}
+    {% endif %}    
+    <br>  
+
+    <div class="text">
+    <table class="text" style="width:100%;">
+      {% if general_info.country %}
+      <tr class="text">
+        <td class="text" style="width:40%">Country:</td>
+        <td class="text">{{ general_info.country|title }}</td>
+      </tr>
+      {% endif %}
+      {% if general_info.appellation %}
+      <tr class="text">
+        <td class="text">Appellation (G.I.):</td>
+        <td class="text">{{ general_info.appellation|title }}</td>
+      </tr>
+      {% endif %}
+      {% if general_info.grape %}
+      <tr class="text">
+        <td class="text">Grape:</td>
+        <td class="text">{{ general_info.grape|title }}</td>
+      </tr>
+      {% endif %}
+      {% if general_info.climate %}
+      <tr class="text">
+        <td class="text">Climate:</td> 
+        <td class="text">{{ general_info.climate|title }}</td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+      
+    <h3>Sight</h3>
+    <div class="text" >
+    <table class="text" style="width:100%;">
+      {% if sight.clarity %}
+      <tr class="text">
+        <td class="text" style="width:40%">Clarity:</td>
+        <td class="text">{{ sight.clarity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if sight.brightness %}
+      <tr class="text">
+        <td class="text">Brightness:</td>
+        <td class="text">{{sight.brightness|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.concentration %}
+      <tr class="text"> 
+        <td class="text">Concentration:</td>
+        <td class="text">{{sight.concentration|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.color %}
+      <tr class="text">
+        <td class="text">Color:</td>
+        <td class="text">{{sight.color|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.hue %}
+      <tr class="text">  
+        <td class="text">Hue:</td>
+        <td class="text">{{sight.hue|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.rim %}
+      <tr class="text">
+        <td class="text">Rim Variation:</td>
+        <td class="text">{{sight.rim}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.stain %}
+      <tr class="text">
+        <td class="text">Extract/Stain:</td>
+        <td class="text">{{sight.stain|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.tears %}
+      <tr class="text">
+        <td class="text">Viscosity/Tears:</td>
+        <td class="text">{{sight.tears|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.gas %}
+      <tr class="text">
+        <td class="text">Gas Evidence:</td>
+        <td class="text">{{sight.gas|title}}</td>
+      </tr>
+      {% endif %}
+      {% if sight.sediment %}
+      <tr class="text">
+        <td class="text">Sediment/Particles:</td>
+        <td class="text">{{sight.sediment|title}}</td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>      
+
+    <h3>Nose</h3>
+    <div class="text">
+    <table class="text" style="width:100%;">
+      {% if nose.clean %}
+      <tr class="text">
+        <td class="text" style="width:40%">Clean/Faulted:</td>
+        <td class="text">{{nose.clean|title}}</td>
+      </tr>
+      {% endif %}
+      {% if nose.intensity %}
+      <tr class="text">
+        <td class="text">Intensity:</td>
+        <td class="text">{{nose.intensity|title}}</td>
+      </tr>
+      {% endif %}
+      {% if nose.age %}
+      <tr class="text">
+        <td class="text">Age Assessment:</td>
+        <td class="text">{{nose.age|title}}</td>
+      </tr>
+      {% endif %}
+      {% if nose.wood %}
+      <tr class="text">
+        <td class="text" style="width:40%;">Wood:</td>
+        <td class="text">
+          {% for item in nose.wood %}
+          {{ item.val }}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+    </table>
+    <br>
+
+    {% if intensities_nose.fruit_intensity or nose.fruit or nose.fruit_character %}
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Fruit</th>          
+      </tr>
+      {% if intensities_nose.fruit_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{intensities_nose.fruit_intensity|title}}</td>
+      </tr>
+      {% endif %}
+      {% if nose.fruit %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Fruit type</th>
+      </tr>
+      {% for item in nose.fruit %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes|title }}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% if nose.fruit_character %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Fruit Character</th>
+      </tr>
+      <tr>
+        <td colspan="2">
+        {% for item in nose.fruit_character %}
+        {{ item.val|title }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+    
+    {% if nose.nonfruit or intensities_nose.nonfruit_intensity %}    
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Non-Fruit</th>          
+      </tr>
+      {% if intensities_nose.nonfruit_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{ intensities_nose.nonfruit_intensity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if nose.nonfruit %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Type</th>
+      </tr>
+      {% for item in nose.nonfruit %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes|title }}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+
+    {% if nose.organic or intensities_nose.organic_intensity %}
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Earth/Mineral - Organic</th>          
+      </tr>
+      {% if intensities_nose.organic_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{ intensities_nose.organic_intensity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if nose.organic %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Type</th>
+      </tr>
+      {% for item in nose.organic %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes|title }}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+
+    {% if intensities_nose.inorganic_intensity or nose.inorganic %}
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Earth/Mineral - Inorganic</th>
+      </tr>
+      {% if intensities_nose.inorganic_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{ intensities_nose.inorganic_intensity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if nose.inorganic %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Type</th>
+      </tr>
+      {% for item in nose.inorganic %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes |title}}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+    </div>
+
+    <h3>Palate</h3>
+    <h4>Structure Elements</h4>
+    <div class="text">
+    <table class="text" style="width:100%;">
+      {% if taste.sweetness %}
+      <tr class="text">
+        <td class="text" style="width:40%;">Sweetness:</td>
+        <td class="text">{{ taste.sweetness|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.body %}
+      <tr class="text">
+        <td class="text">Body:</td>
+        <td class="text">{{ taste.body|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.texture %}
+      <tr class="text">
+        <td class="text">Texture:</td>
+        <td class="text">{{ taste.texture|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.tannin %}
+      <tr class="text">
+        <td class="text">Tannin</td>
+        <td class="text">{{ taste.tannin|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.acid %}
+      <tr class="text">
+        <td class="text">Acid</td>
+        <td class="text">{{ taste.acid|title }}</td>
+      </tr class="text">
+      {% endif %}
+      {% if taste.alcohol %}
+      <tr class="text">
+        <td class="text">Alcohol</td>
+        <td class="text">{{ taste.alcohol|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.structure_notes %}
+      <tr class="text">
+        <td class="text">Notes:</td>
+        <td class="text">{{ taste.structure_notes }}</td>
+      </tr>
+      {% endif %}
+    </table>
+    </div>
+
+    <h4>Flavor Elements</h4>
+    <div class="text">
+    <table class="text" style="width:100%">
+      {% if taste.length %}
+      <tr class="text">
+        <td class="text" style="width:40%">Length/Finish:</td>
+        <td class="text">{{  taste.length|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.complexity %}
+      <tr class="text">
+        <td class="text">Complexity:</td>
+        <td class="text">{{ taste.complexity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.balance %}
+      <tr class="text">
+        <td class="text">Balance:</td>
+        <td class="text">{{ taste.balance|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.wood %}
+      <tr class="text">
+        <td class="text" style="width:40%;">Wood:</td>
+        <td class="text">
+          {% for item in taste.wood %}
+          {{ item.val }}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+    </table>
+    <br>
+
+    {% if intensities_taste.fruit_intensity or taste.fruit or taste.fruit_character %}
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Fruit</th>          
+      </tr>
+      {% if intensities_taste.fruit_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{intensities_taste.fruit_intensity|title}}</td>
+      </tr>
+      {% endif %}
+      {% if taste.fruit %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Fruit type</th>
+      </tr>
+      {% for item in taste.fruit %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes|title }}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% if taste.fruit_character %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Fruit Character</th>
+      </tr>
+      <tr>
+        <td colspan="2">
+        {% for item in taste.fruit_character %}
+        {{ item.val|title }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+    
+    {% if taste.nonfruit or intensities_taste.nonfruit_intensity %}    
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Non-Fruit</th>          
+      </tr>
+      {% if intensities_taste.nonfruit_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{ intensities_taste.nonfruit_intensity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.nonfruit %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Type</th>
+      </tr>
+      {% for item in taste.nonfruit %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes|title }}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+
+    {% if taste.organic or intensities_taste.organic_intensity %}
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Earth/Mineral - Organic</th>          
+      </tr>
+      {% if intensities_taste.organic_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{ intensities_taste.organic_intensity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.organic %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Type</th>
+      </tr>
+      {% for item in taste.organic %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes|title }}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+
+    {% if intensities_taste.inorganic_intensity or taste.inorganic %}
+    <table id="t01" border="1" cellpadding="4" align="center">
+      <tr>
+        <th colspan="2">Earth/Mineral - Inorganic</th>
+      </tr>
+      {% if intensities_taste.inorganic_intensity %}
+      <tr>
+        <td>Intensity</td>
+        <td>{{ intensities_taste.inorganic_intensity|title }}</td>
+      </tr>
+      {% endif %}
+      {% if taste.inorganic %}
+      <tr style="border-style: double none none none">
+        <th colspan="2">Type</th>
+      </tr>
+      {% for item in taste.inorganic %}
+      {% if item.val %}
+      <tr>
+        <td>{{ item.val|title }}</td>
+        <td>{{ item.notes |title}}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    <br>
+    <br>
+    {% endif %}
+    </div>
+    
+    <h3>Notes:</h3>
+    <div class="text">
+    <p><i>{{ notes }}</i></p>
+    </div>
+    <br>
+
+    <form method="get" action="{{ delete_url }}">
+      <div align=center>
+        <button type="submit" class="button button-block" style="cursor:pointer; background-color:{{ color }}">Delete this note (ask: are you sure??)</button>
+      </div>
+    </form>
+
+  </fieldset>
+  {% endif %}
+
+  {% if message %}
+  <script type="text/javascript">
+  alert("{{ message }}");
+  </script>
+  {% endif %}
+
+</body>
+
+</html>

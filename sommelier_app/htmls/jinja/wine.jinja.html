@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tasting Notes</title>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/normalize.css"> 
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <script type="text/javascript">
+    function post(path, params)
+    {
+      // code from http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+      method = "post";
+
+      var form = document.createElement("form");
+      form.setAttribute("method", method);
+      form.setAttribute("action", path);
+
+      for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+      }
+      document.body.appendChild(form);
+      form.submit();
+    } 
+
+    function load_wine(val)
+    {
+      if(val != "none"){
+        post('{{ post_url }}', {name: val})
+      }
+    }
+  </script>
+
+  <style>
+    table, th, td {
+      border: 1px solid #999999;
+      border-radius: 4px;
+      border-collapse: collapse;
+      font-size: 16px;
+      color: #a0b3b0;
+    }
+    th {
+      background-color: #13232f;
+      color: white;
+      font-weight: bold;
+    }
+    table {
+    	width: 75%;
+    }
+    table#t01 tr:nth-child(even) {
+      background-color: #13232f;
+    }
+    table#t01 tr:nth-child(odd) {
+      background-color: #2B3944;
+    }
+    h1 {
+      color: white;
+    }
+    h2 {
+    	text-align: center;
+    	color: #c1bdba;
+      font-size: 26px;
+    }
+    h3 {
+    	color: #c1bdba;
+      font-size: 22px;
+    } 
+    input[type=radio]:checked + label {
+      background-color: #f00;
+    }
+    select{
+      cursor: pointer;
+    }
+    body {
+      background: #c1bdba;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    input:focus, textarea:focus {
+      outline: 0;
+      border-color: #990000;
+    }
+    select {
+      color: #333333;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <fieldset style="padding: 10px 40px; width:60%; margin: 40px auto; background-color:#13232f; box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3); border-radius: 4px; border: 0px">
+    <h2 style="text-align:left; font-size:18px">Select your stored tasting notes:</h2>
+
+    <div style="font-size:16px; color:#a0b3b0;">
+      <select id="wineselect" onchange="load_wine(this.value);">
+        <option value="none">Select ...</option>
+        {% for wine in wines %}
+        <option value="{{ wine.wineid }}">{{ wine.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br>
+
+    <form method="get" action="{{ welcome_url }}">
+      <div align=center>
+        <button type="submit" class="button button-block" style="font-size:22px; cursor:pointer; background-color:{{ color }}">Create a new Tasting Note</button>
+      </div>
+    </form>
+
+  </fieldset>
+
+  {% if show_tasting_note %}
+  <fieldset style="padding: 40px; width:60%; margin: 40px auto; background-color:#13232f; box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3); border-radius: 4px; border: 0px">
+
+    <legend  style="width:100%; height:60px; box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3); border-radius: 4px; border: 0px color:white; background-color:{{ color }} vertical-align:middle; text-align:center; margin:0 auto" align="center"><h1>{{ name }}</h1></legend>
+
+      
+    {% if pics.front_label and pics.back_label %}
+    <div>
+      <img src="{{ pics.front_label }}" style="float:left; width: 45%; margin-right:2%; margin-left:4%; margin-bottom:0.5em;">
+      <img src="{{ pics.back_label }}" style="float:left; width: 45%; margin-bottom:0.5em;">
+      <p style="clear: both;">
+    </div>
+    {% else %}
+      {% if pics.front_label %}
+      <div align="center">
+        <img src="{{ pics.front_label }}" style="width: 50%; margin-bottom:0.5em; margin-left:auto; margin-right:auto;">
+      </div>
+      {% elif pics.back_label %}
+      <div align="center">
+        <img src="{{ pics.back_label }}" style="width: 50%; margin-bottom:0.5em; margin-left:auto; margin-right:auto;">
+      </div>
+      {% endif %}
+    {% endif %}
+      
+
+      <h2>Descriptors</h2>
+      
+      <h3>General Info:</h3>
+      <div style="font-size:16px; color:#a0b3b0;">
+      <ul>
+        <li>Climate: <b>{{ general_info.climate }}</b></li>
+        <li>Primary grape variety: <b>{{ general_info.grape }}</b></li>
+        <li>Style of this wine: <b>{{ general_info.style }}</b></li>
+        <li>General age: <b>{{ general_info.age }}</b></li>
+        <li>Country of origin: <b>{{ general_info.country }}</b></li>
+        <li>Color: <b>{{ general_info.color }}</b></li>
+      </ul>
+      </div>
+      <br>
+      
+      <h3>Fruit Family(s):</h3>
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th>Fruit Family</th>
+          <th>Content</th>
+        </tr>
+        {% for item in fruit_family %}
+        <tr>
+          <td>{{item.key}}</td>
+          <td align=center>{{ item.value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <br>
+      
+      <h3>Fruit Quality(s):</h3>
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th>Fruit Quality</th>
+          <th>Content</th>
+        </tr>
+        {% for item in fruit_quality %}
+        <tr>
+          <td>{{item.key}}</td>
+          <td align=center>{{ item.value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <br>
+      
+      <h3>Non-Fruit Quality(s):</h3>
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th>Non-Fruit Quality</th>
+          <th>Content</th>
+        </tr>
+        {% for item in non_fruit_quality %}
+        <tr>
+          <td>{{item.key}}</td>
+          <td align=center>{{ item.value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <br>
+      <table id="t01" border="1" cellpadding="4" align="center">
+        {% for item in non_fruit_quality_2 %}
+        <tr>
+          <td>{{item.key}}</td>
+          <td align=center>{{ item.value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <br>
+      
+      <h3>Sructure:</h3>
+      <div style="font-size:16px; color:#a0b3b0;">
+        Sweet: {{ sweet }}
+      </div>
+      <br>
+      
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th>Structure</th>
+          <th>Strength</th>
+        </tr>
+        {% for item in structure %}
+        <tr>
+          <td>{{item.key}}</td>
+          <td align=center>{{ item.value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <br>
+      
+      <h3>Notes:</h3>
+      <div style="font-size:16px; color:#a0b3b0;">
+      <p><i>{{notes}}</i></p>
+      </div>
+      <br>
+
+    <form method="get" action="{{ delete_url }}">
+      <div align=center>
+        <button type="submit" class="button button-block" style="font-size:22px; cursor:pointer; background-color:{{ color }}">Delete Wine from Data Base</button>
+      </div>
+    </form>
+
+  </fieldset>
+  {% endif %}
+
+  {% if message %}
+  <script type="text/javascript">
+  alert("{{ message }}");
+  </script>
+  {% endif %}
+
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/normalize.css"> 
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/mobile.css">
+
+  <style>
+    h1 {
+      text-align: center;
+      color: #CC3399;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: .1em;
+    }
+    select{
+      cursor: pointer;
+    }
+    body {
+      background: #c1bdba;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    select {
+      color: #333333;
+    }
+    div.text {
+      font-size: 20px;
+      color: #a0b3b0;"
+    }
+    .button-block {
+      font-size:22px;
+      width: 480px;
+    }
+    fieldset {
+      width: 80%;
+    }
+
+@media only screen and (max-device-width: 568px){
+    h1 {
+      font-size: 55px;
+    }
+    div.text {
+      font-size: 50px;
+      text-align: center;
+    }
+    .button-block {
+      font-size: 44px;
+      height: 100px; 
+    }
+}
+  </style>
+</head>
+
+<body>
+  <br>
+  <h1 style="text-align:center;">
+  <strong>Hi {{ name }},</strong>
+  </h1>
+
+  <fieldset>
+
+    <div class="text">
+      {{ welcome_text }}<br><br>
+    </div>
+
+    <form method="post" action="">
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <div class="text">
+          New tasting notes
+          <select name="wine_type">
+            <option value="red">Red Wine</option>
+            <option value="white">White Wine</option>
+          </select>
+        </div>
+        <br>
+        <br>
+        <div align=center>
+          <button type="submit" class="button button-block" style="cursor:pointer">
+          New</button>
+        </div>
+        <br>
+    </form>
+    <br>
+    
+    <div class="text">
+      Previous tasting notes
+    </div>
+    <br>
+    <div align=center>
+      <button type="submit" class="button button-block" style="cursor:pointer">
+      <a style="color:white;" href="{{ url_old_tasting_notes }}">Previous</a></button>
+    </div>
+
+    <div class="text">
+      <a href="{{ url_old_tasting_notes }}">Previous tasting notes</a>
+    </div>
+    <br>
+
+  </fieldset>
+  <br><br>
+  <br><br>
+
+</body>
+
+</html>

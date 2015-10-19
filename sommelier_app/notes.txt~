@@ -1,0 +1,38 @@
+TORNADO:
+1. nginx listens to port 80 and redirects to 8000
+2. supervisord runs tornado_runner.py on the background.
+3. tornado_runner.py is listening to port 8000 all the time.
+supervisor:
+https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
+
+host your own web and get domain
+http://linux-blog.org/host-your-own-domain-website-and-webserver/
+
+check if tornado is running
+ps -aux | grep tornado
+
+stop/restart supervisord
+sudo service supervisor restart
+sudo service nginx stop
+
+To easily display all the permissions on a path, you can use
+namei -om /path/to/check
+
+===================================================
+
+ROUTER:
+router 192.168.1.1 / 4141800
+
+===================================================
+
+APACHE2:
+
+1. restart service:
+sudo service apache2 restart
+
+2. configure catadb.com:
+https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-14-04-lts
+http://www.cyberciti.biz/faq/ubuntu-mod_python-apache-tutorial/
+
+
+

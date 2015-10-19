@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ type|title }} Wine</title>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/normalize.css"> 
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <style>
+    table, th, td {
+      border: 1px solid #999999;
+      border-radius: 4px;
+      border-collapse: collapse;
+      font-size: 16px;
+      color: #a0b3b0;
+    }
+    td {
+      text-align: center;
+    }
+    th {
+      background-color: #13232f;
+      color: white;
+      font-weight: bold;
+    }
+    table {
+    	width: 100%;
+    }
+    table#t01 tr:nth-child(even) {
+      background-color: #13232f;
+    }
+    table#t01 tr:nth-child(odd) {
+      background-color: #2B3944;
+    }
+    h1 {
+      padding: 30px 30px;
+      color: white;
+      font-size: 34px;
+    }
+    h3 {
+      color: #c1bdba;
+      font-size: 30px;
+      text-align: center;
+    }
+    h4 {
+      color: #c1bdba;
+      font-size: 20px;
+      text-align: center;
+    } 
+    input[type=radio]:checked {
+      background-color: #f00;
+    }
+    input[type=radio] {
+      display: inline;
+      width: auto;
+      height: 100%;
+      padding: 0px;
+      background: none;
+      background-image: none;
+      border: 0;
+      color: #ffffff;
+      border-radius: 0;
+    }
+    input[type=text].table {
+      display: block;
+      width: 100%;
+      height: auto;
+      padding: 0px;
+      background: none;
+      background-image: none;
+      border: 0;
+      color: #a0b3b0;
+      border-radius: 0;
+      font-size: 16px;
+    }
+    input[type=text] {
+      font-size: 16px;
+    }
+    input[type=file] {
+      font-size: 14px;
+    }
+    select{
+      cursor: pointer;
+    }
+    body {
+      background: #13232f;
+      font-family: 'Titillium Web', sans-serif;
+    }
+    input:focus, textarea:focus {
+      outline: 0;
+      border-color: {{ color }};
+    }
+    select {
+      color: #333333;
+      margin-left:10px;
+    }
+    table.text, th.text, td.text {
+      font-size: 16px;
+      color: #a0b3b0;
+      border: 0;
+      text-align: left;
+      padding: 0px 0px 20px 0px;
+    }
+    div.text {
+      font-size:16px;
+      color:#a0b3b0;
+    }
+    fieldset {
+      width: 480px;
+      padding: 0px;
+      margin: 40px auto;
+      background-color:#13232f;
+      box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+      border: 0px;
+    }
+    .button-block {
+      font-size: 22px;
+    }
+    textarea {
+      font-size: 16px
+    }
+    input[type=radio]
+    {
+      -webkit-appearance:radio;
+    }
+    input[type=checkbox]
+    {
+      transform: scale(0.7);
+      display: inline-block;
+      -webkit-appearance: checkbox;
+    }
+
+@media only screen and (max-device-width: 568px) and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3){
+/* Styles */
+    fieldset {
+      width: 98%
+    }
+    h1 {
+      font-size: 55px;
+    }
+    h3 {
+      font-size: 55px;
+    }
+    h4 {
+      font-size: 50px;
+    }
+    .button-block {
+      font-size: 44px;
+      height: 100px; 
+    }
+    div.text {
+      font-size: 40px;
+    }
+    input[type=file] {
+      font-size: 30px;
+    }
+    table, th, td {
+      font-size: 40px;
+    }
+    table.text, th.text, td.text {
+      font-size: 40px;
+    }
+    textarea {
+      font-size: 40px
+    } 
+    input[type=text].table {
+      height: 80px;
+      font-size: 40px;
+    }
+    input[type=text] {
+      height: 80px;
+      font-size: 40px;
+    }
+}
+  </style>
+
+</head>
+
+<body>
+
+  <div style="width:100%; height:120px; box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3); border-radius: 4px; border: 0px color:white; background-color:{{ color }}; vertical-align:middle; text-align:center;">
+    <h1><b>{{ type|title }} Wine Descriptors</b></h1>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" action="{{ url }}">
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+    <fieldset>
+      <div>
+        <img id="output" style="float:left; width: 45%; margin-right:2%; margin-left:4%; margin-bottom:0.5em;" alt=""/>
+        <img id="output1" style="float:left; width: 45%; margin-bottom:0.5em;" alt=""/>
+      </div>
+      
+      <div class="text" style="clear:left;">
+        Upload the front label image:
+        <input type="file" name="front_label" accept="image/*" onchange="loadFile(event)" style="border:0; display:inline; width:40%">
+        <script>
+          var loadFile = function(event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+          };
+        </script>
+        <br>
+        Upload the back  label image:
+        <input type="file" name="back_label" accept="image/*" onchange="loadFile1(event)" style="border:0; display:inline; width:40%">
+        <script>
+          var loadFile1 = function(event) {
+            var output = document.getElementById('output1');
+            output.src = URL.createObjectURL(event.target.files[0]);
+          };
+        </script>
+      </div>
+      <br>
+      
+      <div class="text">
+        Name: <input type="text" name="name" value="">
+        <br>
+        <table class="text" style="width:100%;">
+          <tr class="text">
+            <td class="text">
+              Country: <input type="text" style="width:95%" name="country" value=  "">
+            </td>
+            <td class="text">
+              Appellation (G.I.): <input type="text" style="width:100%"  name="appellation" value="">
+            </td>
+          <tr class="text">
+        </table>
+        <br>
+        Grape: <input type="text" name="grape" value=  "">
+        <br>
+        Climate:
+        <select name="climate" style="margin-left:10px">
+          <option value="cool">Cool</option>
+          <option value="moderate">Moderate</option>
+          <option value="warm/hot">Warm/Hot</option>
+        </select>
+      </div>
+      
+      <h3>Sight</h3>
+      <div class="text" >
+      <table class="text" style="width:100%;">
+        <tr class="text">
+          <td class="text">Clarity:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="clarity" value="clear">Clear
+            <input type="radio" style="margin-left:10px" name="clarity" value="slightly cloudy">Slightly Cloudy
+            <input type="radio" style="margin-left:10px" name="clarity" value="cloudy">Cloudy
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Brightness:</td>
+          <td class="text">
+            <select name="brightness">
+              <option value="dull">Dull</option>
+              <option value="hazy">Hazy</option>
+              <option value="bright">Bright</option>
+              <option value="day bright">Day Bright</option>
+              <option value="star bright">Star Bright</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="text"> 
+          <td class="text">Concentration:</td>
+          <td class="text">
+            <select name="concentration">
+              <option value="translucent">Translucent</option>
+              <option value="opaque">Opaque</option>
+              <option value="pale">Pale</option>
+              <option value="medium">Medium</option>
+              <option value="deep">Deep</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Color:</td>
+          <td class="text">
+            {% if type == 'red' %}
+            <input type="radio" style="margin-left:10px" name="color" value="purple">Purple
+            <input type="radio" style="margin-left:10px" name="color" value="ruby">Ruby
+            <input type="radio" style="margin-left:10px" name="color" value="garnet">Garnet
+            {% elif type == 'white' %}
+            <input type="radio" style="margin-left:10px" name="color" value="straw">Straw
+            <input type="radio" style="margin-left:10px" name="color" value="yellow">Yellow
+            <input type="radio" style="margin-left:10px" name="color" value="gold">Gold
+            {% endif %}
+          </td>
+        </tr>
+        <tr class="text">  
+          <td class="text">Hue:</td>
+          <td class="text">
+            <select name="hue">
+            {% if type == 'red' %}
+              <option value="blue">Blue</option>
+              <option value="ruby">Ruby</option>
+              <option value="garnet">Garnet</option>
+              <option value="orange">Orange</option>
+              <option value="brown">Brown</option>
+            {% elif type == 'white' %}
+              <option value="silver">Silver</option>
+              <option value="green">Green</option>
+              <option value="orange">Orange</option>
+            {% endif %}
+            </select>
+          </td>
+        </tr>
+        {% if type == 'red' %}
+        <tr class="text">
+          <td class="text" colspan="2">
+            Rim Variation (color change from center to edge):
+            <input type="text" name="rim" value="">
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Extract/Stain:</td>
+          <td class="text">
+            <select name="stain">
+              <option value="none">None</option>
+              <option value="light">Light</option>
+              <option value="medium">Medium</option>
+              <option value="heavy">Heavy</option>
+            </select>
+          </td>
+        </tr>
+        {% endif %}
+        <tr class="text">
+          <td class="text">Viscosity/Tears:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="tears" value="low">Low
+            <input type="radio" style="margin-left:10px" name="tears" value="medium">Medium
+            <input type="radio" style="margin-left:10px" name="tears" value="high">High
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Gas Evidence:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="gas" value="yes">Yes
+            <input type="radio" style="margin-left:10px" name="gas" value="no">No
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Sediment/Particles:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="sediment" value="yes">Yes
+            <input type="radio" style="margin-left:10px" name="sediment" value="no">No
+          </td>
+        </tr>
+      </table>
+      </div>      
+
+      <h3>Nose</h3>
+      <div class="text">
+      <table class="text" style="width:100%;">
+        <tr class="text">
+          <td class="text">Clean/Faulted:</td>
+          <td class="text">
+            <select name="clean">
+              <option value="clean">Clean</option>
+              <option value="tca">TCA</option>
+              <option value="h2s">H2S</option>
+              <option value="va">VA</option>
+              <option value="ea">EA</option>
+              <option value="brett">Brett</option>
+              <option value="oxidation">Oxidation</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Intensity:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="intensity" value="delicate">Delicate
+            <input type="radio" style="margin-left:10px" name="intensity" value="moderate">Moderate
+            <input type="radio" style="margin-left:10px" name="intensity" value="powerful">Powerful
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Age Assessment:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="age" value="youthful">Youthful
+            <input type="radio" style="margin-left:10px" name="age" value="evolving">Evolving
+            <input type="radio" style="margin-left:10px" name="age" value="vinous">Vinous
+          </td>
+        </tr>
+      </table>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Fruit</th>          
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="nose_fruit_intensity" value="low"></td>
+          <td><input type="radio" name="nose_fruit_intensity" value="med-"></td>
+          <td><input type="radio" name="nose_fruit_intensity" value="med"></td>
+          <td><input type="radio" name="nose_fruit_intensity" value="med+"></td>
+          <td><input type="radio" name="nose_fruit_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Fruit type</th>
+        </tr>
+        {% if type == 'red' %}
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_red" value="Red"></td>
+          <td>Red</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_red_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_black" value="Black"></td>
+          <td>Black</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_black_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_blue" value="Blue"></td>
+          <td>Blue</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_blue_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_fig" value="Fig/Raisin"></td>
+          <td>Fig/Raisin</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_fig_notes" value=""></td>
+        </tr>
+        {% elif type=='white' %}
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_apple" value="Apple/Pear"></td>
+          <td>Apple/Pear</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_apple_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_citrus" value="Citrus"></td>
+          <td>Citrus</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_citrus_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_pitted" value="Pitted/Stone"></td>
+          <td>Pitted/Stone</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_pitted_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_tropical" value="Tropical"></td>
+          <td>Tropical</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_tropical_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_fruit_melon" value="Melon"></td>
+          <td>Melon</td>
+          <td colspan="5"><input type="text" class="table" name="nose_fruit_melon_notes" value=""></td>
+        </tr>
+        {% endif %}
+        <tr style="border-style: double none none none">
+          <th colspan="7">Fruit Character</th>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <table cellpadding="4" align="center" style="width:100%">
+              <tr>
+                <td style="width:5%"><input type="checkbox" name="nose_fruit_tart" value="Tart"></td>
+                <td style="width:45%">Tart</td>
+                <td style="width:5%"><input type="checkbox" name="nose_fruit_overripe" value="Overripe/Jammy"></td>
+                <td style="width:45%">Overripe/Jammy</td>
+              </tr>
+              <tr>
+                <td style="width:5%"><input type="checkbox" name="nose_fruit_ripe" value="Ripe"></td>
+                <td style="width:45%">Ripe</td>
+                <td style="width:5%"><input type="checkbox" name="nose_fruit_baked" value="Baked/Dried/Oxidized"></td>
+                <td style="width:45%">Baked/Dried/Oxidized</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+      
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Non-Fruit</th>          
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="nose_nonfruit_intensity" value="low"></td>
+          <td><input type="radio" name="nose_nonfruit_intensity" value="med-"></td>
+          <td><input type="radio" name="nose_nonfruit_intensity" value="med"></td>
+          <td><input type="radio" name="nose_nonfruit_intensity" value="med+"></td>
+          <td><input type="radio" name="nose_nonfruit_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Type</th>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_nonfruit_floral" value="Floral"></td>
+          <td>Floral</td>
+          <td colspan="5"><input type="text" class="table" name="nose_nonfruit_floral_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_nonfruit_vegetal" value="Vegetal"></td>
+          <td>Vegetal</td>
+          <td colspan="5"><input type="text" class="table" name="nose_nonfruit_vegetal_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_nonfruit_spice" value="Spice"></td>
+          <td>Spice</td>
+          <td colspan="5"><input type="text" class="table" name="nose_nonfruit_spice_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_nonfruit_vinification" value="Vinification"></td>
+          <td>Vinification</td>
+          <td colspan="5"><input type="text" class="table" name="nose_nonfruit_vinification_notes" value=""></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Earth/Mineral - Organic</th>          
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="nose_organic_intensity" value="low"></td>
+          <td><input type="radio" name="nose_organic_intensity" value="med-"></td>
+          <td><input type="radio" name="nose_organic_intensity" value="med"></td>
+          <td><input type="radio" name="nose_organic_intensity" value="med+"></td>
+          <td><input type="radio" name="nose_organic_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Type</th>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_organic_forest" value="Forest Floor"></td>
+          <td>Forest Floor</td>
+          <td colspan="5"><input type="text" class="table" name="nose_organic_forest_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_organic_compost" value="Compost"></td>
+          <td>Compost</td>
+          <td colspan="5"><input type="text" class="table" name="nose_organic_compost_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_organic_mushrooms" value="Mushrooms"></td>
+          <td>Mushrooms</td>
+          <td colspan="5"><input type="text" class="table" name="nose_organic_mushrooms_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_organic_soil" value="Potting Soil"></td>
+          <td>Potting Soil</td>
+          <td colspan="5"><input type="text" class="table" name="nose_organic_soil_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_organic_barn" value="Barn"></td>
+          <td>Barn</td>
+          <td colspan="5"><input type="text" class="table" name="nose_organic_barn_notes" value=""></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Earth/Mineral - Inorganic</th>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="nose_inorganic_intensity" value="low"></td>
+          <td><input type="radio" name="nose_inorganic_intensity" value="med-"></td>
+          <td><input type="radio" name="nose_inorganic_intensity" value="med"></td>
+          <td><input type="radio" name="nose_inorganic_intensity" value="med+"></td>
+          <td><input type="radio" name="nose_inorganic_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Type</th>
+        </tr>
+
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_inorganic_mineral" value="Mineral"></td>
+          <td>Mineral</td>
+          <td colspan="5"><input type="text" class="table" name="nose_inorganic_mineral_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_inorganic_limestone" value="Limestone"></td>
+          <td>Limestone</td>
+          <td colspan="5"><input type="text" class="table" name="nose_inorganic_limestone_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_inorganic_chalk" value="Chalk"></td>
+          <td>Chalk</td>
+          <td colspan="5"><input type="text" class="table" name="nose_inorganic_chalk_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_inorganic_slate" value="Slate/Petrol"></td>
+          <td>Slate/Petrol</td>
+          <td colspan="5"><input type="text" class="table" name="nose_inorganic_slate_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_inorganic_flint" value="Flint"></td>
+          <td>Flint</td>
+          <td colspan="5"><input type="text" class="table" name="nose_inorganic_flint_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_inorganic_volcanic" value="Volcanic"></td>
+          <td>Volcanic</td>
+          <td colspan="5"><input type="text" class="table" name="nose_inorganic_volcanic_notes" value=""></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="4">Wood</th>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_none" value="None"></td>
+          <td colspan="3">None</td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_old" value="Old"></td>
+          <td>Old</td>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_new" value="New"></td>
+          <td>New</td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_small" value="Small"></td>
+          <td>Small</td>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_large" value="Large"></td>
+          <td>Large</td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_french" value="French"></td>
+          <td>French</td>
+          <td style="width:5%"><input type="checkbox" name="nose_wood_american" value="American"></td>
+          <td>American</td>
+        </tr>
+      </table>
+      </div>
+
+      <h3>Palate</h3>
+      <h4>Structure Elements</h4>
+      <div class="text">
+      <table class="text" style="width:100%;">
+        <tr class="text">
+          <td class="text">Sweetness:</td>
+          <td class="text">
+            <select name="sweetness">
+              <option value="bone dry">Bone Dry</option>
+              <option value="dry">Dry</option>
+              <option value="off dry">Off Dry</option>
+              <option value="sweet">Sweet</option>
+              <option value="very sweet">Very Sweet</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Body:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="body" value="light">Light
+            <input type="radio" style="margin-left:10px" name="body" value="medium">Medium
+            <input type="radio" style="margin-left:10px" name="body" value="full">Full
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Texture:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="texture" value="creamy">Creamy
+            <input type="radio" style="margin-left:10px" name="texture" value="round">Round
+            <input type="radio" style="margin-left:10px" name="texture" value="lean">Lean
+          </td>
+        </tr>
+      </table>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th></th>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        {% if type=='red' %}
+        <tr>
+          <td>Tannin</td>
+          <td align=center><input type="radio" name="tannin" value="low"></td>
+          <td align=center><input type="radio" name="tannin" value="med-"></td>
+          <td align=center><input type="radio" name="tannin" value="med"></td>
+          <td align=center><input type="radio" name="tannin" value="med+"></td>
+          <td align=center><input type="radio" name="tannin" value="high"></td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td>Acid</td>
+          <td align=center><input type="radio" name="acid" value="low"></td>
+          <td align=center><input type="radio" name="acid" value="med-"></td>
+          <td align=center><input type="radio" name="acid" value="med"></td>
+          <td align=center><input type="radio" name="acid" value="med+"></td>
+          <td align=center><input type="radio" name="acid" value="high"></td>
+        </tr>
+        <tr>
+          <td>Alcohol</td>
+          <td align=center><input type="radio" name="alcohol" value="low"></td>
+          <td align=center><input type="radio" name="alcohol" value="med-"></td>
+          <td align=center><input type="radio" name="alcohol" value="med"></td>
+          <td align=center><input type="radio" name="alcohol" value="med+"></td>
+          <td align=center><input type="radio" name="alcohol" value="high"></td>
+        </tr>
+        <tr>
+          <td>Notes</td>
+          <td colspan="5"><input type="text" class="table" name="structure_notes" value=""></td>
+        </tr>
+      </table>
+      </div>
+
+      <h4>Flavor Elements</h4>
+      <div class="text">
+      <table class="text" style="width:100%">
+        <tr class="text">
+          <td class="text">Length/Finish:</td>
+          <td class="text">
+            <select name="length">
+              <option value="short">Short</option>
+              <option value="med-">Med-</option>
+              <option value="medium">Medium</option>
+              <option value="med+">Med+</option>
+              <option value="long">Long</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text">Complexity:</td>
+          <td class="text">
+            <input type="radio" style="margin-left:10px" name="complexity" value="low">Low
+            <input type="radio" style="margin-left:10px" name="texture" value="moderate">Moderate
+            <input type="radio" style="margin-left:10px" name="texture" value="complex">Complex
+          </td>
+        </tr>
+        <tr class="text">
+          <td class="text" colspan="2">
+            Balance (Does any element dominate?):
+            <input type="text" name="balance" value="">
+          </td>
+        </tr>
+      </table>
+      <br>
+      
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Fruit</th>          
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="taste_fruit_intensity" value="low"></td>
+          <td><input type="radio" name="taste_fruit_intensity" value="med-"></td>
+          <td><input type="radio" name="taste_fruit_intensity" value="med"></td>
+          <td><input type="radio" name="taste_fruit_intensity" value="med+"></td>
+          <td><input type="radio" name="taste_fruit_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Fruit type</th>
+        </tr>
+        {% if type == 'red' %}
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_red" value="Red"></td>
+          <td>Red</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_red_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_black" value="Black"></td>
+          <td>Black</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_black_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_blue" value="Blue"></td>
+          <td>Blue</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_blue_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_fig" value="Fig/Raisin"></td>
+          <td>Fig/Raisin</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_fig_notes" value=""></td>
+        </tr>
+        {% elif type=='white' %}
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_apple" value="Apple/Pear"></td>
+          <td>Apple/Pear</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_apple_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_citrus" value="Citrus"></td>
+          <td>Citrus</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_citrus_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_pitted" value="Pitted/Stone"></td>
+          <td>Pitted/Stone</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_pitted_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_tropical" value="Tropical"></td>
+          <td>Tropical</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_tropical_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_fruit_melon" value="Melon"></td>
+          <td>Melon</td>
+          <td colspan="5"><input type="text" class="table" name="taste_fruit_melon_notes" value=""></td>
+        </tr>
+        {% endif %}
+        <tr style="border-style: double none none none">
+          <th colspan="7">Fruit Character</th>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <table cellpadding="4" align="center" style="width:100%">
+              <tr>
+                <td style="width:5%"><input type="checkbox" name="taste_fruit_tart" value="Tart"></td>
+                <td style="width:45%">Tart</td>
+                <td style="width:5%"><input type="checkbox" name="taste_fruit_overripe" value="Overripe/Jammy"></td>
+                <td style="width:45%">Overripe/Jammy</td>
+              </tr>
+              <tr>
+                <td style="width:5%"><input type="checkbox" name="taste_fruit_ripe" value="Ripe"></td>
+                <td style="width:45%">Ripe</td>
+                <td style="width:5%"><input type="checkbox" name="taste_fruit_baked" value="Baked/Dried/Oxidized"></td>
+                <td style="width:45%">Baked/Dried/Oxidized</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+      
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Non-Fruit</th>          
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="taste_nonfruit_intensity" value="low"></td>
+          <td><input type="radio" name="taste_nonfruit_intensity" value="med-"></td>
+          <td><input type="radio" name="taste_nonfruit_intensity" value="med"></td>
+          <td><input type="radio" name="taste_nonfruit_intensity" value="med+"></td>
+          <td><input type="radio" name="taste_nonfruit_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Type</th>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_nonfruit_floral" value="Floral"></td>
+          <td>Floral</td>
+          <td colspan="5"><input type="text" class="table" name="taste_nonfruit_floral_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_nonfruit_vegetal" value="Vegetal"></td>
+          <td>Vegetal</td>
+          <td colspan="5"><input type="text" class="table" name="taste_nonfruit_vegetal_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_nonfruit_spice" value="Spice"></td>
+          <td>Spice</td>
+          <td colspan="5"><input type="text" class="table" name="taste_nonfruit_spice_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_nonfruit_vinification" value="Vinification"></td>
+          <td>Vinification</td>
+          <td colspan="5"><input type="text" class="table" name="taste_nonfruit_vinification_notes" value=""></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Earth/Mineral - Organic</th>          
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="taste_organic_intensity" value="low"></td>
+          <td><input type="radio" name="taste_organic_intensity" value="med-"></td>
+          <td><input type="radio" name="taste_organic_intensity" value="med"></td>
+          <td><input type="radio" name="taste_organic_intensity" value="med+"></td>
+          <td><input type="radio" name="taste_organic_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Type</th>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_organic_forest" value="Forest Floor"></td>
+          <td>Forest Floor</td>
+          <td colspan="5"><input type="text" class="table" name="taste_organic_forest_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_organic_compost" value="Compost"></td>
+          <td>Compost</td>
+          <td colspan="5"><input type="text" class="table" name="taste_organic_compost_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_organic_mushrooms" value="Mushrooms"></td>
+          <td>Mushrooms</td>
+          <td colspan="5"><input type="text" class="table" name="taste_organic_mushrooms_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_organic_soil" value="Potting Soil"></td>
+          <td>Potting Soil</td>
+          <td colspan="5"><input type="text" class="table" name="taste_organic_soil_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_organic_barn" value="Barn"></td>
+          <td>Barn</td>
+          <td colspan="5"><input type="text" class="table" name="taste_organic_barn_notes" value=""></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="7">Earth/Mineral - Inorganic</th>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td style="width:12%">Low</td>
+          <td style="width:12%">Med-</td>
+          <td style="width:12%">Med</td>
+          <td style="width:12%">Med+</td>
+          <td style="width:12%">High</td>
+        </tr>
+        <tr>
+          <td colspan="2">Intensity</td>
+          <td><input type="radio" name="taste_inorganic_intensity" value="low"></td>
+          <td><input type="radio" name="taste_inorganic_intensity" value="med-"></td>
+          <td><input type="radio" name="taste_inorganic_intensity" value="med"></td>
+          <td><input type="radio" name="taste_inorganic_intensity" value="med+"></td>
+          <td><input type="radio" name="taste_inorganic_intensity" value="high"></td>
+        </tr>
+        <tr style="border-style: double none none none">
+          <th colspan="7">Type</th>
+        </tr>
+
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_inorganic_mineral" value="Mineral"></td>
+          <td>Mineral</td>
+          <td colspan="5"><input type="text" class="table" name="taste_inorganic_mineral_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_inorganic_limestone" value="Limestone"></td>
+          <td>Limestone</td>
+          <td colspan="5"><input type="text" class="table" name="taste_inorganic_limestone_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_inorganic_chalk" value="Chalk"></td>
+          <td>Chalk</td>
+          <td colspan="5"><input type="text" class="table" name="taste_inorganic_chalk_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_inorganic_slate" value="Slate/Petrol"></td>
+          <td>Slate/Petrol</td>
+          <td colspan="5"><input type="text" class="table" name="taste_inorganic_slate_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_inorganic_flint" value="Flint"></td>
+          <td>Flint</td>
+          <td colspan="5"><input type="text" class="table" name="taste_inorganic_flint_notes" value=""></td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_inorganic_volcanic" value="Volcanic"></td>
+          <td>Volcanic</td>
+          <td colspan="5"><input type="text" class="table" name="taste_inorganic_volcanic_notes" value=""></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+
+      <table id="t01" border="1" cellpadding="4" align="center">
+        <tr>
+          <th colspan="4">Wood</th>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_none" value="none"></td>
+          <td colspan="3">None</td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_old" value="old"></td>
+          <td>Old</td>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_new" value="new"></td>
+          <td>New</td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_small" value="small"></td>
+          <td>Small</td>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_large" value="large"></td>
+          <td>Large</td>
+        </tr>
+        <tr>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_french" value="french"></td>
+          <td>French</td>
+          <td style="width:5%"><input type="checkbox" name="taste_wood_american" value="american"></td>
+          <td>American</td>
+        </tr>
+      </table>
+      </div>
+
+      <h3>Notes:</h3>
+      <div class="text">
+      <textarea name="notes" style="color:#333333; overflow:auto; background-color:white; border:1px solid #999999;" cols=40 rows=4>Type your personal tasting notes here...</textarea>
+      <br><br>
+      </div>
+
+      <div align=center>
+        <button type="submit" class="button button-block" style="cursor:pointer; background-color:{{ color }};">Save</button>
+      </div>
+
+    </fieldset>
+
+  </form>
+
+</body>
+
+</html>
