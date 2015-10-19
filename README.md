@@ -1,4 +1,4 @@
 # non_physics
 
-catadb_django: Django web application<br>
-sommelier_app: Tornado web application (same as catadb-django but with Tornado instead of Tornado)
+_ catadb_django _ : Django web application (master sommelier tasting grid)<br>
+_ sommelier_app _ : Tornado web application (basic tasting grid)
